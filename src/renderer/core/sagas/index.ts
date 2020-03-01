@@ -9,7 +9,6 @@ import {
 } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 //import { forceCheck } from 'react-lazyload';
-import { remote } from 'electron';
 import { AnyAction } from 'redux';
 import Events from '../events';
 import Api from './api';
@@ -108,21 +107,12 @@ function* Exit() {
 }
 
 function* windowMaximize() {
-  const window = remote.BrowserWindow.getFocusedWindow();
-
-  if (window !== null) {
-    if (window.isMaximized()) {
-      window.unmaximize();
-    } else {
-      window.maximize();
-    }
-  }
+  ipcRenderer.send('maximize-window');
   yield null;
 }
 
 function* windowMinimize() {
-  const window = remote.BrowserWindow.getFocusedWindow();
-  window !== null && window.minimize();
+  ipcRenderer.send('minimize-window');
   yield null;
 }
 
@@ -152,7 +142,7 @@ function* getFileRecent() {
 function* openExternal(action: AnyAction) {
   const { payload } = action;
   // eslint-disable-next-line global-require
-  require('electron').shell.openExternal(payload);
+  //require('electron').shell.openExternal(payload);
   yield null;
 }
 

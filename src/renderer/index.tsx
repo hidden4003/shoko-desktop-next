@@ -7,7 +7,7 @@ import { AppContainer } from 'react-hot-loader';
 import history from './core/history';
 import store from './core/store';
 import Routes from './routes';
-import '../resources/css/app.global.css';
+import '../resources/css/app.global.scss';
 
 render(
   <AppContainer>

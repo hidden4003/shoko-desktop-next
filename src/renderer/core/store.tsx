@@ -1,3 +1,4 @@
+import { writeConfigRequest } from "secure-electron-store";
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
@@ -8,6 +9,7 @@ import throttle from 'lodash/throttle';
 import rootReducer from './reducers';
 import rootSaga from './sagas';
 import { saveState, loadState } from './localStorage';
+
 
 const history = createHashHistory();
 const sagaMiddleware = createSagaMiddleware();
@@ -37,8 +39,7 @@ export const configureStore = () => {
     const state = Object.assign({}, loadState());
     // Create Store
     const store = createStore(rootReducer, state, enhancer);
-
-    const settingsStore = require('electron').remote.getGlobal('sharedObject').store;
+    
     let previousState;
     // Save store to local storage
     store.subscribe(
@@ -48,7 +49,7 @@ export const configureStore = () => {
                 api: apiState
             });
             if (previousState !== apiState) {
-                settingsStore.set('api.host', apiState.host);
+                window.api.store.send(writeConfigRequest, "host", apiState.host);
             }
             previousState = apiState;
         }, 1000)

@@ -2,13 +2,11 @@ import { handleAction } from 'redux-actions';
 
 import { API } from '../actions/api';
 
-const store = require('electron').remote.getGlobal('sharedObject').store;
-
 const defaultState = {
   user: '',
   password: '',
   key: '',
-  host: store.get('api.host', 'http://127.0.0.1:8111')
+  host: typeof window.api.store.initial()["host"] !== "undefined" ? window.api.store.initial()["host"] : 'http://127.0.0.1:8111',
 };
 
 const api = handleAction(

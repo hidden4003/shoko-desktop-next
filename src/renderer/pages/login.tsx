@@ -54,7 +54,7 @@ class Login extends Component<Props, State> {
     constructor(props: Readonly<Props>) {
         super(props);
         this.state = {
-            version: window.require('electron').remote.app.getVersion()
+            version: '2002'
         };
     }
 

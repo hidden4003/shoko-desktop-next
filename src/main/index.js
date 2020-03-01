@@ -1,13 +1,8 @@
-import { app, BrowserWindow } from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path';
 import { format as formatUrl } from 'url';
-import Store from 'electron-store';
-
-const store = new Store();
-
-global.sharedObject = {
-  store: store
-};
+import Store from  'secure-electron-store';
+const fs = require("fs");
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -20,17 +15,41 @@ function createMainWindow() {
     height: 900,
     frame: false,
     webPreferences: {
+      contextIsolation: true,
+      additionalArguments: [`storePath:${app.getPath("userData")}`],
       nodeIntegration: false,
-      preload: path.resolve(__dirname, "..", "..", "dist", "main", "preload.js")
+      preload: path.resolve(__dirname, "..", "..", "dist", "preload.js")
     }
   });
+  
+  ipcMain.on('minimize-window', ()=>{
+    if (mainWindow !== null) {
+      if (mainWindow.isMaximized()) {
+        mainWindow.unmaximize();
+      } else {
+        mainWindow.maximize();
+      }
+    }
+  });
+  
+  ipcMain.on('minimize-window', ()=>{
+    if (mainWindow !== null) {
+      window.minimize();
+    }
+  });
+  
+  // Sets up main.js bindings for our electron store
+  const store = new Store({
+    path: app.getPath("userData")
+  });
+  store.mainBindings(ipcMain, window, fs);
 
   if (isDevelopment) {
     window.webContents.openDevTools();
   }
 
   if (isDevelopment) {
-    window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
+    window.loadURL(`http://localhost:1212/index.html`);
   } else {
     window.loadURL(formatUrl({
       pathname: path.join(__dirname, 'index.html'),
@@ -58,7 +77,10 @@ app.on('window-all-closed', () => {
   // on macOS it is common for applications to stay open until the user explicitly quits
   if (process.platform !== 'darwin') {
     app.quit();
+    return;
   }
+  
+  store.clearMainBindings(ipcMain);
 });
 
 app.on('activate', () => {
