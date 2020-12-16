@@ -11,9 +11,10 @@ let mainWindow;
 
 function createMainWindow() {
   const window = new BrowserWindow({
-    width: 1600,
-    height: 900,
+    width: 1480,
+    height: 608,
     frame: false,
+    transparent:true,
     webPreferences: {
       contextIsolation: true,
       additionalArguments: [`storePath:${app.getPath("userData")}`],

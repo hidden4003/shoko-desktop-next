@@ -8,7 +8,8 @@ function apiCallPost(apiAction:string, apiParams:any, apiKey:string, apiHost:str
       apikey: apiKey
     },
     body: JSON.stringify(apiParams),
-    method: 'POST'
+    method: 'POST',
+    mode: 'no-cors'
   });
 }
 
@@ -17,7 +18,8 @@ function apiCallGet(apiAction:string, apiParams:any, apiKey:string, apiHost:stri
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      apikey: apiKey
+      apikey: apiKey,
+      mode: 'no-cors'
     }
   });
 }

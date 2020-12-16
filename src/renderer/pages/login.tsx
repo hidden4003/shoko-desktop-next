@@ -73,16 +73,18 @@ class Login extends Component<Props, State> {
         const { user, password, host } = api;
 
         return (
-            <div className="page-login-v2 page-content">
-                {image !== '' && <img alt="" className="login-bg" src={image} />}
-                <div className="page-login-main animation-slide-right animation-duration-1">
-                    <div className="app-info">
-                        <div className="font-size-24">SHOKO DESKTOP</div>
-                        Version {this.state.version}
-                    </div>
-                    <h3 className="font-size-24">Welcome back</h3>
-                    <p>Please enter your login details below.</p>
-                    <form method="post" action="">
+            <div className="h-screen p-1">
+            <div className="rounded-lg h-full flex flex-row flex-auto overflow-hidden shadow">
+                <div className="max-h-full flex-grow w-1/2 overflow-hidden flex justify-center items-center bg-cover" style={{background: image && `url(${image}), rgba(10, 11, 29, 0.6)`}}>
+                    <span className="text-5xl text-white font-display font-bold flex flex-col items-center">
+                        <span>Shoko</span>
+                        <span>Desktop</span>
+                        <span className="text-xl font-semibold">V{this.state.version}</span>
+                    </span>
+                </div>
+                <div className="flex-grow w-1/2 bg-white flex-column">
+                    <div className="flex-grow p-6">
+                        
                         <Input
                             name="username"
                             placeholder="Username"
@@ -122,20 +124,12 @@ class Login extends Component<Props, State> {
                                 'Sign in'
                             )}
                         </button>
-                    </form>
-                    <footer className="page-copyright">
-                        <div className="panel panel-bordered panel-dark">
-                            <div className="panel-heading">
-                                <h3 className="panel-title">AUTO-LOGIN</h3>
-                            </div>
-                            <div className="panel-body">
-                                You can change the default login behavior by navigating to
-                                Settings &gt; User.
-                            </div>
-                        </div>
-                    </footer>
+                    </div>
+                    <div className="bg-gray-300"></div>
+                    
+                    <NotificationsQueue />
                 </div>
-                <NotificationsQueue />
+            </div>
             </div>
         );
     }

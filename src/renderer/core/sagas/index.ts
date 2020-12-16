@@ -51,7 +51,9 @@ function* LoginImage() {
   }
 
   const blob = yield result.blob();
-  yield put(uiActions.setUi({ loginImage: URL.createObjectURL(blob) }));
+  var urlCreator = window.URL || window.webkitURL;
+  var imageUrl = urlCreator.createObjectURL( blob );
+  yield put(uiActions.setUi({ loginImage: imageUrl }));
 }
 
 function* apiSetValue(action: AnyAction) {

@@ -6,7 +6,7 @@ const dist = path.join(__dirname, 'dist');
 
 export default {
     context: path.join(__dirname),
-    devtool: 'eval',
+    devtool: 'eval-sourcemap',
     mode: 'development',
     target: 'electron-renderer',
     externals: ['fsevents', 'crypto-browserify'],

@@ -18,7 +18,7 @@ const manifest = path.resolve(dll, 'renderer.json');
 
 
 export default {
-    devtool: 'inline-source-map',
+    devtool: 'eval-source-map',
     
     mode: 'development',
     
@@ -27,7 +27,7 @@ export default {
     externals: ['ipcRenderer'],
     
     entry: [
-        //...(process.env.PLAIN_HMR ? [] : ['react-hot-loader/patch']),
+        'react-hot-loader/patch',
         `webpack-dev-server/client?http://localhost:${port}/`,
         'webpack/hot/only-dev-server',
         require.resolve('./src/renderer/index.tsx')
@@ -250,7 +250,7 @@ export default {
         inline: true,
         lazy: false,
         hot: true,
-        headers: { 'Access-Control-Allow-Origin': '*' },
+        headers: { 'Access-Control-Allow-Origin': '*', 'Content-Security-Policy': 'script-src \'self\'' },
         contentBase: path.join(__dirname, 'dist'),
         watchOptions: {
             aggregateTimeout: 300,
