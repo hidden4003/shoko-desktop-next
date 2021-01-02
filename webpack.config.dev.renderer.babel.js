@@ -250,7 +250,7 @@ export default {
         inline: true,
         lazy: false,
         hot: true,
-        headers: { 'Access-Control-Allow-Origin': '*', 'Content-Security-Policy': 'script-src \'self\'' },
+        headers: { 'Access-Control-Allow-Origin': '*' },
         contentBase: path.join(__dirname, 'dist'),
         watchOptions: {
             aggregateTimeout: 300,
